@@ -1,12 +1,7 @@
-import {Component, NgModule} from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {CommonModule} from '@angular/common';
-import {MatButtonModule} from '@angular/material/button';
-import {MatIconModule} from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
 import {materialVersion, VersionInfo} from './version';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 const versionUrl = 'https://material.angular.io/assets/versions.json';
 
@@ -18,11 +13,10 @@ export class VersionPicker {
   /** The currently running version of Material. */
   materialVersion = materialVersion;
   /** The possible versions of the doc site. */
-  docVersions: Observable<VersionInfo[] | undefined>;
+  docVersions: Observable<VersionInfo[]>;
 
   constructor(private http: HttpClient) {
-    this.docVersions = this.http.get<VersionInfo[]>(versionUrl)
-      .pipe(map((result: VersionInfo[]) => result === null ? undefined : result));
+    this.docVersions = this.http.get<VersionInfo[]>(versionUrl);
   }
 
   /**

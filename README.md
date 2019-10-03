@@ -1,25 +1,18 @@
-# ngFor AsyncPipe Ivy
+# Ivy Template Check Issue
 
-## Development server
+Reproduction of an issue building a template that uses the combination of the following
+1. `*ngFor`
+1. `| async`
+1. `HttpClient`
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+With the following build configuration
+1. `"enableIvy": true`
+1. `"strictNullChecks": true`
+1. `"fullTemplateTypeCheck": true,`
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Disabling any of these build options will allow for a successful build.
+With all of the options enabled, it generates this error:
+```ts
+ERROR in src/app/version-picker.html(6,25): Type 'VersionInfo[] | null' is not assignable to type 'VersionInfo[] | Iterable<VersionInfo> | undefined'.
+src/app/version-picker.html(8,8): Object is of type 'unknown'.
+```
